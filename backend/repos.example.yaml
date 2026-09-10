@@ -1,0 +1,47 @@
+# Repository registry — copy to /etc/cobol-agent/repos.yaml and point
+# REPOS_FILE at it.
+#
+# Credentials are NEVER stored in this file. `credential_env` names the environment
+# variable (or systemd credential) holding the PAT; it is injected for the lifetime of a
+# single git command through GIT_ASKPASS and never reaches .git/config, argv, a log line
+# or a model prompt. See CODESTYLE.md hard rule S3 and docs/DEMO.md §5.
+#
+# No secret material belongs in this file, so no permission self-check is performed on it:
+# every value here is either a URL or the *name* of an environment variable. Put the file at
+# 0600 anyway if your operator's policy requires it, and keep the actual PATs in the secret
+# store the names point at.
+
+repos:
+  - repo_key: core-banking
+    name: Core Banking COBOL
+    url: https://git.intranet.example/core/banking.git
+    default_branch: main
+    description: Deposit and account maintenance programs
+    username: oauth2                     # the username git is told when the PAT is used
+    credential_env: CORE_BANKING_PAT
+    shallow: false                       # set true for very large histories
+
+  - repo_key: payments
+    name: Payments
+    url: https://git.intranet.example/payments/batch.git
+    default_branch: develop
+    description: Batch payment processing
+    username: oauth2
+    credential_env: PAYMENTS_PAT
+    shallow: true                        # partial clone: only recent history is needed
+
+  # A repository reachable without credentials (internal mirror, no auth):
+  - repo_key: samples
+    name: Public samples
+    url: https://git.intranet.example/samples/carddemo.git
+    default_branch: main
+    # credential_env omitted -> anonymous HTTPS
+
+# Rules the loader enforces (see GitService._load_specs):
+#   1. Credentials embedded in `url` (https://user:token@host/...) are REJECTED at load
+#      time, because they leak into .git/config on the first fetch.
+#   2. Only https:// URLs are accepted. ssh:// and file:// remotes are rejected: the PAT
+#      injection design assumes HTTPS, and each of those schemes adds its own credential
+#      surface. A rejection names the entry and the scheme it used.
+#   3. repo_key must be stable: the mirror directory is derived from it, and changing the
+#      url for an existing key re-points the mirror (logged at warning level).

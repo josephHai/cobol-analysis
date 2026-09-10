@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+# Generated deliverables must not be normalised: a workbook's bytes are its identity,
+# and the knowledge base keys chunks off the artifact hash.
+*.xlsx binary
+*.xls  binary
+*.docx binary
+
+# Language statistics and diffs
+*.cbl  linguist-language=COBOL
+*.cpy  linguist-language=COBOL
+*.jcl  linguist-language=JCL
+
+# Generated: review the source, not the artefact.
+contracts/openapi.json  linguist-generated=true
+frontend/dist/**        linguist-generated=true

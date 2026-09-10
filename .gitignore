@@ -1,0 +1,43 @@
+# Secrets and configuration — never commit these.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+repos.yaml
+!backend/repos.example.yaml
+
+# Runtime state: mirrors, run checkouts, deliverables, SQLite.
+data/
+
+# The sample COBOL repository used by the demo and by the API's DEMO_REPO_URL. It is a fixture,
+# regenerated on demand, not source.
+demo-repo/
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.vite/
+*.tsbuildinfo
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+
+# Local AI-tool configuration. `.claude/settings.json` carries a per-workstation permission
+# mode (this checkout had `bypassPermissions`); committing it would impose one developer's
+# choice on everyone.
+.claude/
