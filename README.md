@@ -305,7 +305,7 @@ frontend/src/
 └── shared/           API client · hooks · UI primitives
 scripts/              dev.py (every task) · e2e_smoke.py · skills_check.py · purge_data.py
 contracts/            openapi.json — the frontend contract's single source of truth
-docs/                 design · code style · demo runbook
+docs/                 design · code style · demo runbook · PDM file versioning
 ```
 
 Dependencies point one way: `api → services → infra → domain`, and `agent → services`.
@@ -358,5 +358,6 @@ each item.
 | [docs/DESIGN.md](docs/DESIGN.md) | architecture, verified library capabilities, git model, security design, delivery plan |
 | [docs/DEMO.md](docs/DEMO.md) | runbook, skill replacement, intranet switch-over, known gaps, troubleshooting |
 | [docs/CODESTYLE.md](docs/CODESTYLE.md) | binding rules: layering, naming, testing, security hard rules |
+| [docs/FILE_VERSIONING.md](docs/FILE_VERSIONING.md) | PDM data file version management — design and decisions: import, versions, diff engine, field lineage, multi-scenario extensibility (in Chinese) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | repository conventions, contracts-first workflow, review gates |
 | [CLAUDE.md](CLAUDE.md) | orientation for AI coding tools |
